@@ -199,3 +199,155 @@
     /* Confetti animation */
     .confetti-piece {
       position: absolute;
+      width: 8px;
+      height: 16px;
+      border-radius: 2px;
+      opacity: 0;
+      animation: confetti-fall linear forwards;
+    }
+
+    @keyframes confetti-fall {
+      0% {
+        transform: translate3d(0, -100vh, 0) rotateZ(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translate3d(0, 110vh, 0) rotateZ(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* Ajustes para pantallas de celular */
+    @media (max-width: 600px) {
+      body {
+        padding: 16px;
+        background-attachment: scroll; /* mejora en móviles */
+      }
+
+      .card {
+        padding: 24px 18px 20px;
+        max-width: 420px;
+      }
+
+      .title {
+        font-size: 1.7rem;
+        margin-bottom: 18px;
+      }
+
+      .gallery {
+        grid-template-columns: 1fr;   /* fotos una debajo de otra */
+        gap: 12px;
+        margin-bottom: 22px;
+      }
+
+      .photo {
+        height: 210px;
+        border-radius: 16px;
+      }
+
+      .question {
+        font-size: 1.2rem;
+        margin-bottom: 18px;
+      }
+
+      .buttons {
+        gap: 12px;
+      }
+
+      .btn {
+        padding: 10px 0;
+        font-size: 0.95rem;
+        width: 45%;       /* botones más grandes para el dedo */
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nieve navideña -->
+  <div class="snow" id="snow"></div>
+
+  <!-- Confetti -->
+  <div id="confetti"></div>
+
+  <div class="card">
+    <div class="title">Cutie... ✨</div>
+
+    <div class="gallery">
+      <div class="photo"><img src="foto1.jpg" alt=""></div>
+      <div class="photo"><img src="foto2.jpg" alt=""></div>
+      <div class="photo"><img src="foto3.jpg" alt=""></div>
+      <div class="photo"><img src="foto4.jpg" alt=""></div>
+    </div>
+
+    <div class="question">¿Quieres ir conmigo a la posada? 🎄</div>
+
+    <div class="buttons">
+      <button class="btn btn-yes" onclick="showAnswer('yes')">Si</button>
+      <button class="btn btn-no" onclick="showAnswer('no')">No</button>
+    </div>
+
+    <p class="answer-text" id="answerText"></p>
+  </div>
+
+  <script>
+    /* Texto */
+    function showAnswer(type) {
+      const p = document.getElementById('answerText');
+
+      if (type === 'yes') {
+        p.textContent = 'Awww, espero ya tengas tu mini black dress';
+        launchConfetti();
+      } else {
+        p.textContent = 'Grosera, creiste que no iba a programar esta parte?. So rude';
+      }
+    }
+
+    /* Confetti */
+    function launchConfetti() {
+      const confettiContainer = document.getElementById('confetti');
+      confettiContainer.innerHTML = '';
+
+      const colors = ['#b30000', '#0b6e0b', '#cfa400', '#ffffff'];
+      const pieces = 100;
+
+      for (let i = 0; i < pieces; i++) {
+        const piece = document.createElement('div');
+        piece.classList.add('confetti-piece');
+
+        const size = Math.random() * 7 + 6;
+        piece.style.width = size + 'px';
+        piece.style.height = (size * 1.6) + 'px';
+
+        piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.left = Math.random() * 100 + 'vw';
+        piece.style.animationDuration = (Math.random() * 1.4 + 1.2) + 's';
+        piece.style.animationDelay = (Math.random() * 0.5) + 's';
+
+        confettiContainer.appendChild(piece);
+      }
+
+      setTimeout(() => {
+        confettiContainer.innerHTML = '';
+      }, 2800);
+    }
+
+    /* Nieve */
+    const snowContainer = document.getElementById("snow");
+    const snowflakes = 60;
+
+    for (let i = 0; i < snowflakes; i++) {
+      const flake = document.createElement("div");
+      flake.classList.add("snowflake");
+
+      flake.style.left = Math.random() * 100 + "vw";
+      flake.style.width = flake.style.height = (Math.random() * 5 + 4) + "px";
+      flake.style.animationDuration = (Math.random() * 4 + 4) + "s";
+      flake.style.animationDelay = Math.random() * 4 + "s";
+
+      snowContainer.appendChild(flake);
+    }
+  </script>
+
+</body>
+</html>
